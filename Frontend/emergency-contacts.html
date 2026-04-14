@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ECOPULSE - Emergency Information</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/tailwind-config.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/auth-controller.js"></script>
+</head>
+<body class="bg-background text-on-surface">
+    <aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-slate-950/80 backdrop-blur-xl flex flex-col border-r border-slate-800/50 shadow-2xl shadow-sky-950/20 z-50 font-['Inter'] antialiased tracking-tight">
+        <div class="p-6">
+            <div class="flex items-center gap-3 mb-8">
+                <span class="material-symbols-outlined text-sky-400" style="font-size: 32px;">air</span>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-100 leading-none">ECOPULSE</h1>
+                    <p class="text-xs text-sky-400 mt-1 uppercase tracking-widest font-semibold">Health Monitor</p>
+                </div>
+            </div>
+            <nav class="space-y-1">
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="index.html">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Overview</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="air-quality.html">
+                    <span class="material-symbols-outlined">air</span>
+                    <span>Air Quality</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="health-impact.html">
+                    <span class="material-symbols-outlined">medical_services</span>
+                    <span>Health Impact</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="sources.html">
+                    <span class="material-symbols-outlined">factory</span>
+                    <span>Sources</span>
+                </a>
+                <a class="relative flex items-center gap-3 px-4 py-3 bg-sky-900/30 text-sky-400 rounded-lg before:absolute before:left-0 before:w-1 before:h-6 before:bg-sky-400 before:rounded-r-full" href="emergency-contacts.html">
+                    <span class="material-symbols-outlined">contact_emergency</span>
+                    <span>Emergency Contacts</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <header class="fixed top-0 right-0 left-64 h-16 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/30 flex justify-between items-center px-8 shadow-sm">
+        <div class="flex items-center gap-4">
+            <span class="text-xl font-semibold tracking-tight text-slate-100 italic">ECOPULSE Monitor</span>
+        </div>
+
+            <button id="exportBtn" class="bg-sky-500 text-slate-950 px-4 py-1.5 rounded-md text-sm font-bold hover:bg-sky-400 transition-all shadow-lg active:scale-95">
+                Export Data
+            </button>
+            <div class="flex items-center gap-4 text-slate-400 border-l border-slate-800/50 pl-6 relative">
+                <button id="profileBtn" class="flex items-center gap-2 p-1 pr-3 bg-slate-800/50 rounded-full border border-slate-700 hover:bg-slate-800 hover:border-primary transition-all focus:outline-none group">
+                    <div class="w-8 h-8 rounded-full border border-slate-700 overflow-hidden group-hover:border-primary transition-all">
+                        <img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYvoGPdVe-MHPkOTJtrf93zsLSeX-NA5ZGIje3FJPngNK_rufSAyxfuOdBhi_sPIvQpvXm2bG0siakEQzXgkSlbVTJZggLML9kDGkI_yjdw1xgllvFl342BvcLvfW43yhEDYpeItdH9eT2HyqbNrHF3IgCJmqjwSug9tuf28pT8lf_LEFBAH4g3ourdjYdcWecefmkh3aQGEUUDtclFx9zGnFoWCyaUYa9Hos9_dD11_MQsAPsGO73yfk3CayrSK9LlDGKJTdHdxs"/>
+                    </div>
+                    <span class="material-symbols-outlined text-sm text-slate-500 group-hover:text-primary transition-colors">keyboard_arrow_down</span>
+                </button>
+                <!-- Profile Dropdown -->
+                <div id="profileMenu" class="profile-dropdown absolute top-full right-0 mt-2 w-48 glass-panel rounded-xl border border-outline-variant/20 shadow-xl z-[100] overflow-hidden">
+                    <div class="px-4 py-3 border-b border-outline-variant/10">
+                        <p class="text-[10px] font-bold text-on-surface uppercase tracking-widest">Admin Panel</p>
+                        <p class="text-[10px] text-on-surface-variant font-medium truncate">admin@atchuthapuram.gov</p>
+                    </div>
+                    <div class="p-1">
+                        <button id="logoutBtn" class="w-full flex items-center gap-3 px-3 py-2 text-sm text-error hover:bg-error/10 rounded-lg transition-colors group">
+                            <span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+                            <span class="font-medium">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="ml-64 pt-24 p-8 min-h-screen bg-surface">
+        <section class="mb-12">
+            <div class="relative overflow-hidden rounded-full bg-error-container/20 border border-error/20 p-6 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="p-3 bg-error/10 rounded-xl">
+                        <span class="material-symbols-outlined text-error text-3xl">warning</span>
+                    </div>
+                    <div>
+                        <span class="text-[0.75rem] font-semibold tracking-[0.05em] uppercase text-error block mb-1">Critical Status Alert</span>
+                        <h2 class="text-xl font-semibold text-on-surface">Emergency Response Dashboard</h2>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <p class="text-sm text-on-surface-variant max-w-md text-right">Instant access to critical services and protocols during hazardous air quality events in the Atchuthapuram industrial zone.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-12">
+            <div class="flex items-baseline justify-between mb-6">
+                <h3 class="text-xl font-semibold text-on-surface">Emergency Services</h3>
+                <span class="text-xs font-semibold tracking-wider text-on-surface-variant uppercase">Primary Response Units</span>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div class="glass-panel rounded-full p-6 transition-all hover:bg-surface-container-high group border border-outline-variant/15">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="material-symbols-outlined text-secondary text-4xl">emergency</span>
+                        <span class="bg-secondary/10 text-secondary px-2 py-0.5 rounded text-[10px] font-bold">24/7 ACTIVE</span>
+                    </div>
+                    <h4 class="text-sm font-semibold mb-1 text-on-surface">Ambulance</h4>
+                    <p class="text-[0.75rem] text-on-surface-variant mb-6">Medical emergencies & toxic exposure response.</p>
+                    <button class="w-full py-3 bg-secondary text-on-secondary-container rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                        <span class="material-symbols-outlined text-sm">call</span>
+                        108
+                    </button>
+                </div>
+
+                <div class="glass-panel rounded-full p-6 transition-all hover:bg-surface-container-high group border border-outline-variant/15">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="material-symbols-outlined text-error text-4xl">fire_truck</span>
+                        <span class="bg-error/10 text-error px-2 py-0.5 rounded text-[10px] font-bold">DISPATCH</span>
+                    </div>
+                    <h4 class="text-sm font-semibold mb-1 text-on-surface">Fire Brigade</h4>
+                    <p class="text-[0.75rem] text-on-surface-variant mb-6">Industrial fire & chemical leak containment.</p>
+                    <button class="w-full py-3 bg-error text-on-error-container rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                        <span class="material-symbols-outlined text-sm">call</span>
+                        101
+                    </button>
+                </div>
+
+                <div class="glass-panel rounded-full p-6 transition-all hover:bg-surface-container-high group border border-outline-variant/15">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="material-symbols-outlined text-primary text-4xl">local_police</span>
+                        <span class="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] font-bold">CONTROL</span>
+                    </div>
+                    <h4 class="text-sm font-semibold mb-1 text-on-surface">Police</h4>
+                    <p class="text-[0.75rem] text-on-surface-variant mb-6">Public order & evacuation assistance.</p>
+                    <button class="w-full py-3 bg-primary text-on-primary-container rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                        <span class="material-symbols-outlined text-sm">call</span>
+                        100
+                    </button>
+                </div>
+
+                <div class="glass-panel rounded-full p-6 transition-all hover:bg-surface-container-high group border border-outline-variant/15">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="material-symbols-outlined text-tertiary text-4xl">engineering</span>
+                        <span class="bg-tertiary/10 text-tertiary px-2 py-0.5 rounded text-[10px] font-bold">SAFETY</span>
+                    </div>
+                    <h4 class="text-sm font-semibold mb-1 text-on-surface">Safety Office</h4>
+                    <p class="text-[0.75rem] text-on-surface-variant mb-6">SEZ factory compliance & gas leak reports.</p>
+                    <button class="w-full py-3 bg-tertiary text-on-tertiary-container rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                        <span class="material-symbols-outlined text-sm">call</span>
+                        0891-2345
+                    </button>
+                </div>
+
+                <div class="glass-panel rounded-full p-6 transition-all hover:bg-surface-container-high group border border-outline-variant/15">
+                    <div class="flex justify-between items-start mb-6">
+                        <span class="material-symbols-outlined text-on-surface-variant text-4xl">monitoring</span>
+                        <span class="bg-outline/20 text-on-surface-variant px-2 py-0.5 rounded text-[10px] font-bold">REPORT</span>
+                    </div>
+                    <h4 class="text-sm font-semibold mb-1 text-on-surface">PCB</h4>
+                    <p class="text-[0.75rem] text-on-surface-variant mb-6">Environmental violations & emission alerts.</p>
+                    <button class="w-full py-3 bg-surface-container-highest text-on-surface rounded-lg font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform">
+                        <span class="material-symbols-outlined text-sm">call</span>
+                        1800-599
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+            <div class="lg:col-span-7">
+                <div class="flex items-baseline justify-between mb-6">
+                    <h3 class="text-xl font-semibold text-on-surface">Nearby Healthcare Facilities</h3>
+                    <div class="flex items-center gap-2 text-xs font-semibold text-sky-400">
+                        <span class="material-symbols-outlined text-[14px]">location_on</span>
+                        <span>17.5603° N, 82.9775° E</span>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <!-- Rise Hospital -->
+                    <div class="surface-container-low rounded-xl p-5 flex items-center gap-6 border border-outline-variant/10 hover:bg-surface-container-high transition-all group">
+                        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
+                            <span class="material-symbols-outlined text-primary text-3xl">hospital</span>
+                        </div>
+                        <div class="flex-1">
+                            <h5 class="text-base font-bold text-on-surface group-hover:text-primary transition-colors">Rise Multi-Speciality Hospital</h5>
+                            <p class="text-[0.7rem] text-on-surface-variant mt-1">Main Road, near Atchuthapuram Junction. Known for 24/7 emergency and critical care.</p>
+                            <div class="flex items-center gap-4 mt-3">
+                                <span class="flex items-center gap-1 text-[10px] text-secondary font-bold uppercase tracking-tight"><span class="material-symbols-outlined text-[12px]">directions</span> 0.5 km</span>
+                                <span class="flex items-center gap-1 text-[10px] text-green-500 font-bold uppercase tracking-tight"><span class="material-symbols-outlined text-[12px]">check_circle</span> Verified 24/7</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <a href="tel:+919391910108" class="px-4 py-2 bg-primary text-slate-950 rounded-lg text-[10px] font-bold active:scale-95 transition-all text-center">Call: +91 93919 10108</a>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=Rise+Multi+Speciality+Hospital+Atchutapuram" target="_blank" class="px-4 py-2 bg-primary/10 rounded-lg text-[10px] font-bold text-primary border border-primary/20 active:scale-95 transition-all text-center">Navigate</a>
+                        </div>
+                    </div>
+
+                    <!-- Sravani Hospitals -->
+                    <div class="surface-container-low rounded-xl p-5 flex items-center gap-6 border border-outline-variant/10 hover:bg-surface-container-high transition-all group">
+                        <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center shrink-0 border border-secondary/20">
+                            <span class="material-symbols-outlined text-secondary text-3xl">medical_services</span>
+                        </div>
+                        <div class="flex-1">
+                            <h5 class="text-base font-bold text-on-surface group-hover:text-secondary transition-colors">Sravani Hospitals</h5>
+                            <p class="text-[0.7rem] text-on-surface-variant mt-1">Atchuthapuram Main Road. Specialized in general medicine and local emergency response.</p>
+                            <div class="flex items-center gap-4 mt-3">
+                                <span class="flex items-center gap-1 text-[10px] text-secondary font-bold uppercase tracking-tight"><span class="material-symbols-outlined text-[12px]">directions</span> 1.1 km</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <a href="tel:08924239108" class="px-4 py-2 bg-secondary text-on-secondary-container rounded-lg text-[10px] font-bold active:scale-95 transition-all text-center">Call: 08924-239108</a>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=Sravani+Hospitals+Atchuthapuram" target="_blank" class="px-4 py-2 bg-secondary/10 rounded-lg text-[10px] font-bold text-secondary border border-secondary/20 active:scale-95 transition-all text-center">Navigate</a>
+                        </div>
+                    </div>
+
+                    <!-- Vamsi Hospital -->
+                    <div class="surface-container-low rounded-xl p-5 flex items-center gap-6 border border-outline-variant/10 hover:bg-surface-container-high transition-all group">
+                        <div class="w-16 h-16 rounded-full bg-tertiary/10 flex items-center justify-center shrink-0 border border-tertiary/20">
+                            <span class="material-symbols-outlined text-tertiary text-3xl">home_health</span>
+                        </div>
+                        <div class="flex-1">
+                            <h5 class="text-base font-bold text-on-surface group-hover:text-tertiary transition-colors">Vamsi Hospital</h5>
+                            <p class="text-[0.7rem] text-on-surface-variant mt-1">SEZ Area, Atchuthapuram. Close proximity to industrial clusters.</p>
+                            <div class="flex items-center gap-4 mt-3">
+                                <span class="flex items-center gap-1 text-[10px] text-secondary font-bold uppercase tracking-tight"><span class="material-symbols-outlined text-[12px]">directions</span> 1.8 km</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <a href="tel:+919154919108" class="px-4 py-2 bg-tertiary text-on-tertiary-container rounded-lg text-[10px] font-bold active:scale-95 transition-all text-center">Call: +91 91549 19108</a>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=Vamsi+Hospital+Atchutapuram" target="_blank" class="px-4 py-2 bg-tertiary/10 rounded-lg text-[10px] font-bold text-tertiary border border-tertiary/20 active:scale-95 transition-all text-center">Navigate</a>
+                        </div>
+                    </div>
+
+                    <!-- PHC -->
+                    <div class="surface-container-low rounded-xl p-5 flex items-center gap-6 border border-outline-variant/10 hover:bg-surface-container-high transition-all group">
+                        <div class="w-16 h-16 rounded-full bg-outline/10 flex items-center justify-center shrink-0 border border-outline/20">
+                            <span class="material-symbols-outlined text-on-surface text-3xl">account_balance</span>
+                        </div>
+                        <div class="flex-1">
+                            <h5 class="text-base font-bold text-on-surface group-hover:text-primary transition-colors">PHC Atchuthapuram</h5>
+                            <p class="text-[0.7rem] text-on-surface-variant mt-1">Government Primary Health Centre. Reliable for first-line medical intervention.</p>
+                            <div class="flex items-center gap-4 mt-3">
+                                <span class="flex items-center gap-1 text-[10px] text-secondary font-bold uppercase tracking-tight"><span class="material-symbols-outlined text-[12px]">directions</span> 2.2 km</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-2">
+                            <a href="tel:08924235108" class="px-4 py-2 bg-surface-container-highest text-on-surface rounded-lg text-[10px] font-bold active:scale-95 transition-all text-center">Call: 08924-235108</a>
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=Primary+Health+Centre+Atchuthapuram" target="_blank" class="px-4 py-2 bg-outline/10 rounded-lg text-[10px] font-bold text-on-surface border border-outline/20 active:scale-95 transition-all text-center">Navigate</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5">
+                <div class="bg-error-container/10 rounded-full border border-error/10 overflow-hidden h-full">
+                    <div class="p-6 bg-error/5 border-b border-error/10">
+                        <span class="text-xs font-bold text-error uppercase tracking-widest block mb-2">Protocol: Hazardous AQI</span>
+                        <h4 class="text-xl font-semibold text-on-surface">Action Checklist</h4>
+                    </div>
+                    <div class="p-6 space-y-6">
+                        <div class="flex gap-4">
+                            <div class="shrink-0 w-8 h-8 rounded-full bg-error text-on-error flex items-center justify-center font-bold text-sm">1</div>
+                            <div>
+                                <p class="text-sm font-semibold text-on-surface">Seal Entrances</p>
+                                <p class="text-xs text-on-surface-variant mt-1">Close all windows and doors. Use damp towels for gaps.</p>
+                            </div>
+                        </div>
+                        <div class="pt-6 border-t border-error/10">
+                            <a href="assets/docs/emergency_protocol.pdf" target="_blank" class="w-full py-4 bg-error-container text-on-error-container rounded-lg font-bold flex items-center justify-center gap-2 hover:bg-error transition-all hover:text-on-error">
+                                <span class="material-symbols-outlined">download</span>
+                                Download Protocol PDF
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

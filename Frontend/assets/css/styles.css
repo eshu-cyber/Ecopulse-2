@@ -1,0 +1,49 @@
+body { 
+    font-family: 'Inter', sans-serif;
+    background-color: #0d1322; /* Fallback color */
+    margin: 0;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -10;
+    background-image: url('../images/background.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    filter: blur(6px) brightness(0.45);
+    transform: scale(1.05);
+    pointer-events: none;
+}
+
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.glass-panel, .custom-glass {
+    background: rgba(47, 52, 69, 0.6);
+    backdrop-filter: blur(24px);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.profile-dropdown {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease-in-out;
+}
+
+.profile-dropdown.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}

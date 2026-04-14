@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ECOPULSE - Air Quality Overview</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/tailwind-config.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/auth-controller.js"></script>
+</head>
+<body class="bg-background text-on-surface antialiased selection:bg-primary/30">
+    <aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-slate-950/80 backdrop-blur-xl flex flex-col border-r border-slate-800/50 shadow-2xl shadow-sky-950/20 z-50 font-['Inter'] antialiased tracking-tight">
+        <div class="p-6">
+            <h1 class="text-lg font-bold text-slate-100">ECOPULSE</h1>
+            <p class="text-xs text-sky-400 font-medium">Global Health Monitor</p>
+        </div>
+        <nav class="flex-1 px-4 space-y-1">
+            <a class="relative flex items-center gap-3 px-4 py-3 bg-sky-900/30 text-sky-400 rounded-lg before:absolute before:left-0 before:w-1 before:h-6 before:bg-sky-400 before:rounded-r-full transition-all duration-200" href="index.html">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span class="font-medium">Overview</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 hover:bg-slate-800/50 transition-all duration-200" href="air-quality.html">
+                <span class="material-symbols-outlined" data-icon="air">air</span>
+                <span>Air Quality</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 hover:bg-slate-800/50 transition-all duration-200" href="health-impact.html">
+                <span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+                <span>Health Impact</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 hover:bg-slate-800/50 transition-all duration-200" href="sources.html">
+                <span class="material-symbols-outlined" data-icon="factory">factory</span>
+                <span>Sources</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 hover:bg-slate-800/50 transition-all duration-200" href="emergency-contacts.html">
+                <span class="material-symbols-outlined" data-icon="contact_emergency">contact_emergency</span>
+                <span>Emergency Contacts</span>
+            </a>
+        </nav>
+        <div class="px-4 py-6 border-t border-slate-800/50 space-y-4">
+            <p class="text-[10px] font-bold text-sky-400 uppercase tracking-widest px-4">Pollutant Filters</p>
+            <div class="grid grid-cols-2 gap-2 px-4 pb-2">
+                <button data-pollutant="AQI" class="pollutant-btn active flex items-center justify-center gap-1.5 px-2 py-2 bg-sky-400/10 text-sky-400 rounded border border-sky-400/20 text-[10px] font-bold transition-all">AQI</button>
+                <button data-pollutant="PM2_5" class="pollutant-btn flex items-center justify-center gap-1.5 px-2 py-2 bg-slate-800/50 text-slate-400 rounded border border-slate-700/50 text-[10px] font-bold transition-all hover:bg-slate-800">PM2.5</button>
+                <button data-pollutant="PM10" class="pollutant-btn flex items-center justify-center gap-1.5 px-2 py-2 bg-slate-800/50 text-slate-400 rounded border border-slate-700/50 text-[10px] font-bold transition-all hover:bg-slate-800">PM10</button>
+                <button data-pollutant="NO2" class="pollutant-btn flex items-center justify-center gap-1.5 px-2 py-2 bg-slate-800/50 text-slate-400 rounded border border-slate-700/50 text-[10px] font-bold transition-all hover:bg-slate-800">NO2</button>
+                <button data-pollutant="SO2" class="pollutant-btn flex items-center justify-center gap-1.5 px-2 py-2 bg-slate-800/50 text-slate-400 rounded border border-slate-700/50 text-[10px] font-bold transition-all hover:bg-slate-800">SO2</button>
+                <button data-pollutant="CO" class="pollutant-btn flex items-center justify-center gap-1.5 px-2 py-2 bg-slate-800/50 text-slate-400 rounded border border-slate-700/50 text-[10px] font-bold transition-all hover:bg-slate-800">CO</button>
+            </div>
+        </div>
+    </aside>
+
+    <header class="fixed top-0 right-0 left-64 h-16 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/30 flex justify-between items-center px-8 font-['Inter'] text-sm font-medium">
+        <h2 class="text-xl font-semibold tracking-tight text-slate-100">ECOPULSE Monitor</h2>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-2">
+                    <select id="month-range" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-md px-3 py-1.5 focus:ring-sky-500 focus:border-sky-500 appearance-none cursor-pointer hover:bg-slate-800 transition-colors">
+                        <option value="all">All Months</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <select id="year-range" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-md px-3 py-1.5 focus:ring-sky-500 focus:border-sky-500 appearance-none cursor-pointer hover:bg-slate-800 transition-colors">
+                        <option value="all">All Years</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                </div>
+                <button id="exportBtn" class="px-4 py-1.5 bg-sky-500 text-slate-950 font-bold rounded-md hover:bg-sky-400 transition-all active:scale-95">Export Data</button>
+            </div>
+            <div class="flex items-center gap-4 text-slate-400 border-l border-slate-800/50 pl-6 relative">
+                <button id="profileBtn" class="flex items-center gap-2 p-1 pr-3 bg-slate-800/50 rounded-full border border-slate-700 hover:bg-slate-800 hover:border-primary/50 transition-all focus:outline-none group">
+                    <div class="w-8 h-8 rounded-full overflow-hidden border border-slate-600 group-hover:border-primary/50 transition-colors">
+                        <img alt="User avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUGlH_txgZbH-IMl5ZSjE5RdlnnVVoBnzaDmoAdrunGk7_D03UtecqpUtF6uhhVIr5hsaciTMOXxLmmAU9s8lXzSM6pVi_lxcBrxvIrnsQ12qlcFBQaY1IS0t6UhX8aGS3oz_2tbl0D5FBlovk2_gcQNKoVEM2g63ZPagilb53MQkt_PI7bpIOSterE9HJMS-ZGDLanvmfSxWAH7j_xF-cgqjIKNXC0J2M0MEqqXMLnNcTaSvSzxkYqppVAXc0EcNmA5aRQzpvOOQ"/>
+                    </div>
+                    <span class="material-symbols-outlined text-sm text-slate-500 group-hover:text-primary transition-colors">keyboard_arrow_down</span>
+                </button>
+                <!-- Profile Dropdown -->
+                <div id="profileMenu" class="profile-dropdown absolute top-full right-0 mt-2 w-48 glass-panel rounded-xl border border-outline-variant/20 shadow-xl z-[100] overflow-hidden">
+                    <div class="px-4 py-3 border-b border-outline-variant/10">
+                        <p class="text-[10px] font-bold text-on-surface uppercase tracking-widest">Admin Panel</p>
+                        <p class="text-[10px] text-on-surface-variant font-medium truncate">admin@ecopulse.io</p>
+                    </div>
+                    <div class="p-1">
+                        <button id="logoutBtn" class="w-full flex items-center gap-3 px-3 py-2 text-sm text-error hover:bg-error/10 rounded-lg transition-colors group">
+                            <span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+                            <span class="font-medium">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="ml-64 pt-24 p-8 min-h-screen">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-surface-container p-6 rounded-3xl border border-outline-variant/15 hover:bg-surface-container-high transition-all group">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold tracking-widest text-on-surface-variant uppercase">Latest AQI</span>
+                    <span class="material-symbols-outlined text-error" data-icon="trending_up">trending_up</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span id="stat-aqi" class="text-4xl font-bold text-on-surface">--</span>
+                    <span id="stat-aqi-category" class="px-2 py-0.5 rounded text-[10px] font-bold bg-error-container text-on-error-container uppercase">--</span>
+                </div>
+            </div>
+            <div class="bg-surface-container p-6 rounded-3xl border border-outline-variant/15 hover:bg-surface-container-high transition-all">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold tracking-widest text-on-surface-variant uppercase">Max Pollutant</span>
+                    <span class="material-symbols-outlined text-primary" data-icon="molecule">matter</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span id="stat-pollutant" class="text-4xl font-bold text-on-surface">--</span>
+                    <span class="text-xs text-on-surface-variant">μg/m³</span>
+                </div>
+            </div>
+            <div class="bg-surface-container p-6 rounded-3xl border border-outline-variant/15 hover:bg-surface-container-high transition-all">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold tracking-widest text-on-surface-variant uppercase">Average PM10</span>
+                    <span class="material-symbols-outlined text-secondary" data-icon="emergency">emergency</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span id="stat-pm10" class="text-4xl font-bold text-on-surface">--</span>
+                    <span class="text-xs text-secondary font-medium uppercase">μg/m³</span>
+                </div>
+            </div>
+            <div class="bg-surface-container p-6 rounded-3xl border border-outline-variant/15 hover:bg-surface-container-high transition-all">
+                <div class="flex justify-between items-start mb-4">
+                    <span class="text-xs font-bold tracking-widest text-on-surface-variant uppercase">Trend Factor</span>
+                    <span class="material-symbols-outlined text-error" data-icon="keyboard_double_arrow_up">keyboard_double_arrow_up</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                    <span id="stat-trend" class="text-4xl font-bold text-on-surface">--</span>
+                    <span class="text-xs text-on-surface-variant">Predicted shift</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div class="bg-surface-container rounded-3xl border border-outline-variant/15 p-8 flex flex-col lg:col-span-3">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h4 class="text-xl font-semibold text-on-surface">Overall Pollution Trend</h4>
+                        <p id="trend-period-label" class="text-xs text-on-surface-variant font-medium">Loading data...</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-2 px-3 py-1.5 bg-surface-container-high rounded-full border border-outline-variant/10">
+                            <span class="w-1.5 h-1.5 rounded-full bg-primary/40"></span>
+                            <span class="text-[10px] font-bold text-on-surface-variant uppercase">Historical</span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-error/40 ml-2"></span>
+                            <span class="text-[10px] font-bold text-on-surface-variant uppercase">Predicted</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="h-64 flex items-end gap-1 mb-4" id="chart-container">
+                    <!-- Dynamic Bars Go Here -->
+                    <div class="w-full flex items-center justify-center h-full text-on-surface-variant/40 text-sm italic">
+                        Initializing forecasting model...
+                    </div>
+                </div>
+                
+                <div class="flex justify-between text-[10px] text-on-surface-variant font-bold uppercase tracking-widest px-2" id="chart-x-labels">
+                    <!-- X Labels Go Here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+            <div class="bg-surface-container rounded-full border border-outline-variant/15 overflow-hidden">
+                <div class="p-6 flex items-center justify-between bg-error-container/10 border-b border-error/20">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-error/20 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-error" data-icon="report">report</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-on-surface">Why is today's AQI high?</h4>
+                            <p class="text-xs text-on-surface-variant">Automated anomaly detection report</p>
+                        </div>
+                    </div>
+                    <span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="expand_more">expand_more</span>
+                </div>
+                <div class="p-8 space-y-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+                            <p class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Primary Driver</p>
+                            <p class="text-sm font-semibold">Industrial Emissions</p>
+                            <p class="text-xs text-on-surface-variant mt-2">Special Economic Zone (SEZ) active production spike detected between 02:00-05:00 AM.</p>
+                        </div>
+                        <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+                            <p class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Weather Factor</p>
+                            <p class="text-sm font-semibold">Low Wind Speed</p>
+                            <p class="text-xs text-on-surface-variant mt-2">Wind speed at 2.4 km/h preventing pollutant dispersal in the coastal corridor.</p>
+                        </div>
+                    </div>
+                    <button class="w-full py-3 bg-surface-variant text-on-surface text-sm font-bold rounded-lg hover:bg-surface-container-highest transition-all flex items-center justify-center gap-2">
+                        View Detailed Simulation <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+            <div class="bg-surface-container rounded-full border border-outline-variant/15 p-8">
+                <h4 class="text-xl font-semibold mb-8 text-on-surface">Pollution Source Distribution</h4>
+                <div class="flex items-center gap-10">
+                    <div class="relative w-40 h-40">
+                        <svg class="w-full h-full -rotate-90" viewbox="0 0 36 36">
+                            <circle class="stroke-surface-container-high" cx="18" cy="18" fill="none" r="16" stroke-width="4"></circle>
+                            <circle class="text-error" cx="18" cy="18" fill="none" r="16" stroke="currentColor" stroke-dasharray="55 100" stroke-width="4"></circle>
+                            <circle class="text-primary" cx="18" cy="18" fill="none" r="16" stroke="currentColor" stroke-dasharray="25 100" stroke-dashoffset="-55" stroke-width="4"></circle>
+                            <circle class="text-secondary" cx="18" cy="18" fill="none" r="16" stroke="currentColor" stroke-dasharray="20 100" stroke-dashoffset="-80" stroke-width="4"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span class="text-2xl font-bold">100%</span>
+                            <span class="text-[10px] font-bold text-on-surface-variant uppercase">Total</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="w-2 h-2 rounded-full bg-error"></span>
+                                <span class="text-sm font-medium">Industrial Smoke</span>
+                            </div>
+                            <span class="text-sm font-bold">55%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="w-2 h-2 rounded-full bg-primary"></span>
+                                <span class="text-sm font-medium">Heavy Transport</span>
+                            </div>
+                            <span class="text-sm font-bold">25%</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                <span class="text-sm font-medium">Construction Dust</span>
+                            </div>
+                            <span class="text-sm font-bold">20%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

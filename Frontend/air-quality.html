@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ECOPULSE - Air Quality Panel</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/tailwind-config.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/auth-controller.js"></script>
+</head>
+<body class="bg-background text-on-surface font-body antialiased selection:bg-primary/30">
+
+    <aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-slate-950/80 backdrop-blur-xl flex flex-col border-r border-slate-800/50 shadow-2xl shadow-sky-950/20 font-['Inter'] antialiased tracking-tight z-[60]">
+        <div class="p-6">
+            <h1 class="text-lg font-bold text-slate-100">AP Air Quality</h1>
+            <p class="text-xs text-sky-400 mt-1 uppercase tracking-widest font-semibold">Health Monitor</p>
+        </div>
+        <nav class="flex-1 px-4 space-y-2 mt-4">
+            <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="index.html">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span>Overview</span>
+            </a>
+            <a class="relative flex items-center gap-3 px-4 py-3 bg-sky-900/30 text-sky-400 rounded-lg before:absolute before:left-0 before:w-1 before:h-6 before:bg-sky-400 before:rounded-r-full transition-all duration-200" href="air-quality.html">
+                <span class="material-symbols-outlined" data-icon="air">air</span>
+                <span>Air Quality</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="health-impact.html">
+                <span class="material-symbols-outlined" data-icon="medical_services">medical_services</span>
+                <span>Health Impact</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="sources.html">
+                <span class="material-symbols-outlined" data-icon="factory">factory</span>
+                <span>Sources</span>
+            </a>
+            <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="emergency-contacts.html">
+                <span class="material-symbols-outlined" data-icon="contact_emergency">contact_emergency</span>
+                <span>Emergency Contacts</span>
+            </a>
+        </nav>
+        <div class="px-4 py-6 mt-auto space-y-4">
+            <div class="p-4 bg-slate-900/50 rounded-lg border border-slate-800/50">
+                <p class="text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-3">Pollutant Filters</p>
+                <div class="grid grid-cols-2 gap-2 pb-2">
+                    <button data-pollutant="AQI" class="pollutant-btn active flex items-center justify-center gap-1.5 px-2 py-2 bg-sky-400/10 text-sky-400 rounded border border-sky-400/20 text-[10px] font-bold transition-all">AQI</button>
+                    <button data-pollutant="PM2_5" class="pollutant-btn flex items-center justify-center gap-1.5 px-2 py-2 bg-slate-800/50 text-slate-400 rounded border border-slate-700/50 text-[10px] font-bold transition-all hover:bg-slate-800">PM2.5</button>
+                    <button data-pollutant="PM10" class="pollutant-btn flex items-center justify-center gap-1.5 px-2 py-2 bg-slate-800/50 text-slate-400 rounded border border-slate-700/50 text-[10px] font-bold transition-all hover:bg-slate-800">PM10</button>
+                    <button data-pollutant="NO2" class="pollutant-btn flex items-center justify-center gap-1.5 px-2 py-2 bg-slate-800/50 text-slate-400 rounded border border-slate-700/50 text-[10px] font-bold transition-all hover:bg-slate-800">NO2</button>
+                    <button data-pollutant="SO2" class="pollutant-btn flex items-center justify-center gap-1.5 px-2 py-2 bg-slate-800/50 text-slate-400 rounded border border-slate-700/50 text-[10px] font-bold transition-all hover:bg-slate-800">SO2</button>
+                    <button data-pollutant="CO" class="pollutant-btn flex items-center justify-center gap-1.5 px-2 py-2 bg-slate-800/50 text-slate-400 rounded border border-slate-700/50 text-[10px] font-bold transition-all hover:bg-slate-800">CO</button>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="pl-64 min-h-screen">
+        <header class="fixed top-0 right-0 left-64 h-16 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/30 flex justify-between items-center px-8 shadow-sm">
+                <span class="text-xl font-semibold tracking-tight text-slate-100 font-headline">ECOPULSE Monitor</span>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center bg-surface-container-low px-3 py-1.5 rounded-lg border border-outline-variant/15 text-sm">
+                    <span class="material-symbols-outlined text-sm mr-2 text-primary" data-icon="calendar_today">calendar_today</span>
+                    <input id="date-picker" class="bg-transparent border-none text-on-surface focus:ring-0 p-0 text-sm cursor-pointer" type="date" value="2025-05-15"/>
+                </div>
+                <div class="flex items-center gap-2">
+                    <select id="month-range" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-md px-3 py-1.5 focus:ring-sky-500 focus:border-sky-500 appearance-none cursor-pointer hover:bg-slate-800 transition-colors">
+                        <option value="all">All Months</option>
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <select id="year-range" class="bg-slate-900 border border-slate-800 text-slate-300 text-xs rounded-md px-3 py-1.5 focus:ring-sky-500 focus:border-sky-500 appearance-none cursor-pointer hover:bg-slate-800 transition-colors">
+                        <option value="all">All Years</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                    </select>
+                </div>
+                <button id="exportBtn" class="text-sky-400 font-medium px-3 py-2 hover:bg-slate-800/40 rounded-md transition-all">Export Data</button>
+                <div class="flex items-center gap-3 pl-4 border-l border-slate-800/50 relative">
+                    <button id="profileBtn" class="flex items-center gap-2 p-1 pr-3 bg-slate-800/50 rounded-full border border-slate-700 hover:bg-slate-800 hover:border-primary/50 transition-all focus:outline-none group">
+                        <div class="w-8 h-8 rounded-full overflow-hidden border border-slate-600 group-hover:border-primary/50 transition-colors">
+                            <img alt="User profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7p-9j9kGn-Joo7pDFfnk_rodYkhrBxvCDZCOlvvzo24liQb22AeMF56hiwen6X-DdNunJ6eW865K2Qa5Rd7MWkgWn2acPJn4UmF2qWJM6KE_OveIwIILZ6BOrRFJ71V-IcCUusj6VakylA0Q_wOoliuKXNjuUXJsc_qRt6cv_F6Lz_NkmaMQDOKCEnmeUyqPS0VuwaNbfZNJq6Bd1YqOxnrTTKOZiDwAJpfdwVGHykZ0kl1GhxuJB4ql05MW78PH4BIQYPTOM0GE"/>
+                        </div>
+                        <span class="material-symbols-outlined text-sm text-slate-500 group-hover:text-primary transition-colors">keyboard_arrow_down</span>
+                    </button>
+                    <!-- Profile Dropdown -->
+                    <div id="profileMenu" class="profile-dropdown absolute top-full right-0 mt-2 w-48 glass-panel rounded-xl border border-outline-variant/20 shadow-xl z-[100] overflow-hidden">
+                        <div class="px-4 py-3 border-b border-outline-variant/10">
+                            <p class="text-[10px] font-bold text-on-surface uppercase tracking-widest">Admin Panel</p>
+                            <p class="text-[10px] text-on-surface-variant font-medium truncate">admin@ecopulse.io</p>
+                        </div>
+                        <div class="p-1">
+                            <button id="logoutBtn" class="w-full flex items-center gap-3 px-3 py-2 text-sm text-error hover:bg-error/10 rounded-lg transition-colors group">
+                                <span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+                                <span class="font-medium">Logout</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="pt-24 px-8 pb-12">
+            <div class="mb-8 flex justify-end">
+                <div class="inline-flex items-center bg-surface-container-low p-1 rounded-full border border-outline-variant/15">
+                    <button class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-on-surface-variant hover:text-on-surface transition-colors">Historical</button>
+                    <button class="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-primary text-primary-container shadow-sm shadow-primary/20">Predicted</button>
+                </div>
+            </div>
+
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-surface-container p-6 rounded-3xl border border-outline-variant/15 hover:bg-surface-container-high transition-all group">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[0.75rem] font-bold uppercase tracking-widest text-secondary font-label">Predicted AQI</span>
+                        <span class="material-symbols-outlined text-secondary" data-icon="online_prediction" style="font-size: 16px;">online_prediction</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span id="aqi-val" class="text-5xl font-bold text-on-surface font-headline">--</span>
+                        <span id="aqi-status" class="text-secondary font-semibold text-sm">--</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden mt-4">
+                        <div id="aqi-progress" class="h-full bg-secondary w-0 rounded-full shadow-[0_0_8px_rgba(74,225,118,0.4)] transition-all duration-1000"></div>
+                    </div>
+                </div>
+                <!-- ... other cards ... -->
+                <div class="bg-surface-container p-6 rounded-3xl border border-outline-variant/15 hover:bg-surface-container-high transition-all">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[0.75rem] font-bold uppercase tracking-widest text-tertiary font-label">Predicted PM2.5</span>
+                        <span class="material-symbols-outlined text-tertiary" data-icon="warning" style="font-size: 16px;">warning</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span id="pm25-val" class="text-5xl font-bold text-on-surface font-headline">--</span>
+                        <span id="pm25-status" class="text-tertiary font-semibold text-sm">--</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden mt-4">
+                        <div id="pm25-progress" class="h-full bg-tertiary w-0 rounded-full transition-all duration-1000"></div>
+                    </div>
+                </div>
+                <div class="bg-surface-container p-6 rounded-3xl border border-outline-variant/15 hover:bg-surface-container-high transition-all">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[0.75rem] font-bold uppercase tracking-widest text-secondary font-label">Predicted PM10</span>
+                        <span class="material-symbols-outlined text-secondary" data-icon="check_circle" style="font-size: 16px;">check_circle</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span id="pm10-val" class="text-5xl font-bold text-on-surface font-headline">--</span>
+                        <span id="pm10-status" class="text-secondary font-semibold text-sm">--</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden mt-4">
+                        <div id="pm10-progress" class="h-full bg-secondary w-0 rounded-full transition-all duration-1000"></div>
+                    </div>
+                </div>
+                <div class="bg-surface-container p-6 rounded-3xl border border-outline-variant/15 hover:bg-surface-container-high transition-all">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[0.75rem] font-bold uppercase tracking-widest text-secondary font-label">Predicted SO2</span>
+                        <span class="material-symbols-outlined text-secondary" data-icon="factory" style="font-size: 16px;">factory</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span id="so2-val" class="text-5xl font-bold text-on-surface font-headline">--</span>
+                        <span id="so2-status" class="text-secondary font-semibold text-sm">--</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden mt-4">
+                        <div id="so2-progress" class="h-full bg-secondary w-0 rounded-full transition-all duration-1000"></div>
+                    </div>
+                </div>
+                <div class="bg-surface-container p-6 rounded-3xl border border-outline-variant/15 hover:bg-surface-container-high transition-all">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-[0.75rem] font-bold uppercase tracking-widest text-primary font-label">Predicted CO</span>
+                        <span class="material-symbols-outlined text-primary" data-icon="monitoring" style="font-size: 16px;">monitoring</span>
+                    </div>
+                    <div class="flex items-baseline gap-2 mb-2">
+                        <span id="co-val" class="text-5xl font-bold text-on-surface font-headline">--</span>
+                        <span id="co-status" class="text-primary font-semibold text-sm">--</span>
+                    </div>
+                    <div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden mt-4">
+                        <div id="co-progress" class="h-full bg-primary w-0 rounded-full transition-all duration-1000"></div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-surface-container p-8 rounded-full border border-outline-variant/15 relative overflow-hidden">
+                    <div class="flex justify-between items-center mb-8">
+                        <div>
+                            <h2 class="text-xl font-semibold text-slate-100">Future Concentration Forecast</h2>
+                            <p class="text-sm text-on-surface-variant">Machine-learning based projection for selected period</p>
+                        </div>
+                    </div>
+                    <div class="h-64 flex items-end gap-1 mb-4" id="chart-container">
+                        <!-- Dynamic Bars -->
+                        <div class="w-full flex items-center justify-center h-full text-on-surface-variant/40 text-sm italic">
+                            Fetching forecast trends...
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-on-surface-variant font-bold uppercase tracking-widest px-2" id="chart-x-labels">
+                        <!-- X Labels -->
+                    </div>
+                </div>
+
+                <div class="bg-surface-container-low p-8 rounded-3xl border border-outline-variant/10 flex flex-col">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-6 font-label flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm text-sky-400" data-icon="troubleshoot">troubleshoot</span>
+                        Daily Quality Analysis
+                    </h3>
+                    <div id="insight-container" class="space-y-6">
+                        <div class="space-y-2">
+                            <h4 id="insight-title" class="text-lg font-bold text-slate-100 italic">Analyzing trends...</h4>
+                            <p id="insight-description" class="text-xs text-on-surface-variant leading-relaxed">Select a date to see the specialized ML-driven assessment of pollutant sources and health impacts.</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                                <p class="text-[10px] font-bold text-sky-400 uppercase tracking-widest mb-2">Likely Source Attribution</p>
+                                <p id="insight-source" class="text-xs text-slate-300">--</p>
+                            </div>
+                            <div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800">
+                                <p class="text-[10px] font-bold text-error uppercase tracking-widest mb-2">Health Guideline</p>
+                                <p id="insight-health" class="text-xs text-slate-300">--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

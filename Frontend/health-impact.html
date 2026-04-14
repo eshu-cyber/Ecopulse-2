@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ECOPULSE - Health Impact</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="assets/js/tailwind-config.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script type="module" src="assets/js/auth-controller.js"></script>
+</head>
+<body class="bg-background text-on-surface font-body antialiased selection:bg-primary/30">
+
+    <aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-slate-950/80 backdrop-blur-xl flex flex-col border-r border-slate-800/50 shadow-2xl shadow-sky-950/20 z-50 font-['Inter'] antialiased tracking-tight">
+        <div class="p-6">
+            <div class="flex items-center gap-3 mb-8">
+                <span class="material-symbols-outlined text-sky-400" style="font-size: 32px;">air</span>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-100 leading-none">ECOPULSE</h1>
+                    <p class="text-xs text-sky-400 mt-1 uppercase tracking-widest font-semibold">Health Monitor</p>
+                </div>
+            </div>
+            <nav class="space-y-1">
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="index.html">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Overview</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="air-quality.html">
+                    <span class="material-symbols-outlined">air</span>
+                    <span>Air Quality</span>
+                </a>
+                <a class="relative flex items-center gap-3 px-4 py-3 bg-sky-900/30 text-sky-400 rounded-lg before:absolute before:left-0 before:w-1 before:h-6 before:bg-sky-400 before:rounded-r-full" href="health-impact.html">
+                    <span class="material-symbols-outlined">medical_services</span>
+                    <span>Health Impact</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="sources.html">
+                    <span class="material-symbols-outlined">factory</span>
+                    <span>Sources</span>
+                </a>
+                <a class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-100 transition-colors hover:bg-slate-800/50 rounded-md" href="emergency-contacts.html">
+                    <span class="material-symbols-outlined">contact_emergency</span>
+                    <span>Emergency Contacts</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <header class="fixed top-0 right-0 left-64 h-16 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/30 flex justify-between items-center px-8 font-['Inter'] text-sm font-medium">
+        <div class="flex items-center gap-4">
+            <span class="text-xl font-semibold tracking-tight text-slate-100 italic">ECOPULSE Monitor</span>
+        </div>
+        <div class="flex items-center gap-6">
+
+            <button id="exportBtn" class="bg-sky-500 text-slate-950 px-4 py-1.5 rounded-md text-sm font-bold hover:bg-sky-400 transition-all shadow-lg active:scale-95">Export Data</button>
+            <div class="flex items-center gap-4 text-slate-400 border-l border-slate-800/50 pl-6 relative">
+                <button id="profileBtn" class="flex items-center gap-2 p-1 pr-3 bg-slate-800/50 rounded-full border border-slate-700 hover:bg-slate-800 hover:border-primary transition-all focus:outline-none group">
+                    <div class="w-8 h-8 rounded-full border border-slate-700 overflow-hidden group-hover:border-primary transition-all">
+                        <img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYvoGPdVe-MHPkOTJtrf93zsLSeX-NA5ZGIje3FJPngNK_rufSAyxfuOdBhi_sPIvQpvXm2bG0siakEQzXgkSlbVTJZggLML9kDGkI_yjdw1xgllvFl342BvcLvfW43yhEDYpeItdH9eT2HyqbNrHF3IgCJmqjwSug9tuf28pT8lf_LEFBAH4g3ourdjYdcWecefmkh3aQGEUUDtclFx9zGnFoWCyaUYa9Hos9_dD11_MQsAPsGO73yfk3CayrSK9LlDGKJTdHdxs"/>
+                    </div>
+                    <span class="material-symbols-outlined text-sm text-slate-500 group-hover:text-primary transition-colors">keyboard_arrow_down</span>
+                </button>
+                <!-- Profile Dropdown -->
+                <div id="profileMenu" class="profile-dropdown absolute top-full right-0 mt-2 w-48 glass-panel rounded-xl border border-outline-variant/20 shadow-xl z-[100] overflow-hidden">
+                    <div class="px-4 py-3 border-b border-outline-variant/10">
+                        <p class="text-[10px] font-bold text-on-surface uppercase tracking-widest">Admin Panel</p>
+                        <p class="text-[10px] text-on-surface-variant font-medium truncate">admin@atchuthapuram.gov</p>
+                    </div>
+                    <div class="p-1">
+                        <button id="logoutBtn" class="w-full flex items-center gap-3 px-3 py-2 text-sm text-error hover:bg-error/10 rounded-lg transition-colors group">
+                            <span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+                            <span class="font-medium">Logout</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="ml-64 pt-24 px-8 pb-12">
+        <div class="max-w-7xl mx-auto space-y-8">
+            <section class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <div class="lg:col-span-4 glass-panel rounded-xl p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-semibold text-on-surface">Hospital-wise Annual Case Trends</h3>
+                        <span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">2023 vs 2024 Projections</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+                            <p class="text-[0.65rem] font-bold text-primary uppercase mb-1">Rise Multi-Speciality</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-2xl font-bold">485</span>
+                                <span class="text-[0.65rem] text-error font-bold">+15.5%</span>
+                            </div>
+                            <p class="text-[9px] text-on-surface-variant mt-1">Primarily Respiratory & Critical Care</p>
+                        </div>
+                        <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+                            <p class="text-[0.65rem] font-bold text-secondary uppercase mb-1">Sravani Hospitals</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-2xl font-bold">345</span>
+                                <span class="text-[0.65rem] text-error font-bold">+11.3%</span>
+                            </div>
+                            <p class="text-[9px] text-on-surface-variant mt-1">General Medicine & Outpatient</p>
+                        </div>
+                        <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+                            <p class="text-[0.65rem] font-bold text-tertiary uppercase mb-1">Vamsi Hospital</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-2xl font-bold">320</span>
+                                <span class="text-[0.65rem] text-error font-bold">+14.2%</span>
+                            </div>
+                            <p class="text-[9px] text-on-surface-variant mt-1">Industrial Cluster Proximity</p>
+                        </div>
+                        <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10">
+                            <p class="text-[0.65rem] font-bold text-outline uppercase mb-1">PHC Atchuthapuram</p>
+                            <div class="flex items-baseline gap-2">
+                                <span class="text-2xl font-bold">185</span>
+                                <span class="text-[0.65rem] text-error font-bold">+23.3%</span>
+                            </div>
+                            <p class="text-[9px] text-on-surface-variant mt-1">Primary Intervention Cases</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="glass-panel rounded-xl overflow-hidden">
+                <div class="px-6 py-5 border-b border-outline-variant/10">
+                    <h3 class="text-xl font-semibold text-on-surface">Disease Burden Breakdown</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-surface-container-low text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                            <tr>
+                                <th class="px-6 py-4">Disease Category</th>
+                                <th class="px-6 py-4">Reported Cases</th>
+                                <th class="px-6 py-4">Primary Pollutant</th>
+                                <th class="px-6 py-4">Risk Trend</th>
+                                <th class="px-6 py-4 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm divide-y divide-outline-variant/5">
+                            <tr class="hover:bg-surface-container-high/50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-on-surface">Asthma Exacerbation</td>
+                                <td class="px-6 py-4">482</td>
+                                <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-error-container text-on-error-container text-[10px] font-bold">PM 2.5</span></td>
+                                <td class="px-6 py-4 text-error font-bold">+14.4%</td>
+                                <td class="px-6 py-4 text-right"><button class="text-primary hover:underline text-xs">View Analytics</button></td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-high/50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-on-surface">COPD Admissions</td>
+                                <td class="px-6 py-4">315</td>
+                                <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-tertiary-container text-tertiary text-[10px] font-bold">NO2 / SO2</span></td>
+                                <td class="px-6 py-4 text-secondary font-bold">-3.2%</td>
+                                <td class="px-6 py-4 text-right"><button class="text-primary hover:underline text-xs">View Analytics</button></td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-high/50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-on-surface">Bronchitis (Chronic)</td>
+                                <td class="px-6 py-4">246</td>
+                                <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-slate-800 text-slate-300 text-[10px] font-bold">PM 10</span></td>
+                                <td class="px-6 py-4 text-error font-bold">+8.7%</td>
+                                <td class="px-6 py-4 text-right"><button class="text-primary hover:underline text-xs">View Analytics</button></td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-high/50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-on-surface">Cardiovascular Stress</td>
+                                <td class="px-6 py-4">192</td>
+                                <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-error-container text-on-error-container text-[10px] font-bold">PM 2.5</span></td>
+                                <td class="px-6 py-4 text-error font-bold">+5.1%</td>
+                                <td class="px-6 py-4 text-right"><button class="text-primary hover:underline text-xs">View Analytics</button></td>
+                            </tr>
+                            <tr class="hover:bg-surface-container-high/50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-on-surface">Lung Cancer</td>
+                                <td class="px-6 py-4">28</td>
+                                <td class="px-6 py-4"><span class="px-2 py-1 rounded bg-surface-variant text-on-surface-variant text-[10px] font-bold">Carcinogens</span></td>
+                                <td class="px-6 py-4 text-on-surface-variant font-bold">+2.0%</td>
+                                <td class="px-6 py-4 text-right"><button class="text-primary hover:underline text-xs">View Analytics</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+</body>
+</html>
