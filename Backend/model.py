@@ -249,7 +249,9 @@ else:
 
 joblib.dump(scaler, os.path.join(BASE_DIR, "scaler.joblib"))
 joblib.dump(FEATURES, os.path.join(BASE_DIR, "features.joblib"))
-print("Files saved: model.joblib, scaler.joblib, features.joblib")
+df.to_csv(os.path.join(BASE_DIR, "processed_aqi_data.csv"), index=False)
+print("Files saved: model.joblib, scaler.joblib, features.joblib, processed_aqi_data.csv")
+
 
 # ── STEP 9: Visualizations ──────────────────────
 fig, axes = plt.subplots(2, 3, figsize=(18, 12))
