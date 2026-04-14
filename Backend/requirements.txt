@@ -5,3 +5,7 @@ numpy
 joblib
 gunicorn
 openpyxl
+scikit-learn
+xgboost
+matplotlib
+seaborn

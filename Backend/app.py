@@ -6,21 +6,40 @@ import joblib
 import os
 from datetime import datetime, timedelta
 
-app = Flask(__name__, static_folder='../Frontend', static_url_path='')
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FRONTEND_DIR = os.path.join(os.path.dirname(BASE_DIR), 'Frontend')
+
+app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path='')
 CORS(app)
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "model.joblib")
 SCALER_PATH = os.path.join(BASE_DIR, "scaler.joblib")
 DATA_PATH = os.path.join(BASE_DIR, "processed_aqi_data.csv")
 FEATURES_PATH = os.path.join(BASE_DIR, "features.joblib")
 
+print(f"--- STARTING ECOPULSE BACKEND ---")
+print(f"Base Directory: {BASE_DIR}")
+print(f"Frontend Directory: {FRONTEND_DIR}")
+
 # Load model and data
-model = joblib.load(MODEL_PATH)
-scaler = joblib.load(SCALER_PATH)
-features = joblib.load(FEATURES_PATH)
-df_historical = pd.read_csv(DATA_PATH)
-df_historical['Date'] = pd.to_datetime(df_historical['Date'])
+try:
+    print("Loading model.joblib...")
+    model = joblib.load(MODEL_PATH)
+    print("Loading scaler.joblib...")
+    scaler = joblib.load(SCALER_PATH)
+    print("Loading features.joblib...")
+    features = joblib.load(FEATURES_PATH)
+    print("Loading processed_aqi_data.csv...")
+    df_historical = pd.read_csv(DATA_PATH)
+    df_historical['Date'] = pd.to_datetime(df_historical['Date'])
+    print("--- ALL MODELS LOADED SUCCESSFULLY ---")
+except Exception as e:
+    print(f"!!! CRITICAL ERROR DURING LOADING: {e}")
+    # We define dummies so the app doesn't crash here, but users will see the error in logs
+    model = None
+    scaler = None
+    features = []
+    df_historical = pd.DataFrame()
 
 def get_forecast_data():
     """Generate forecasted data for 2026 and 2027 based on historical seasonal trends."""
