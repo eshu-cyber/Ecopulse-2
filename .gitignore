@@ -6,7 +6,7 @@ venv/
 .env
 
 # Assets
-Frontend/assets/images/background.png
+
 
 # ML Data fallout
 Backend/__pycache__/
