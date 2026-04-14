@@ -10,10 +10,7 @@ venv/
 
 # ML Data fallout
 Backend/__pycache__/
-Backend/processed_aqi_data.csv
-Backend/model.joblib
-Backend/scaler.joblib
-Backend/features.joblib
+
 
 # OS
 .DS_Store
